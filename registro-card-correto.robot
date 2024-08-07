@@ -1,5 +1,6 @@
 *** Settings ***
 Library          SeleniumLibrary
+Library          FakerLibrary    locale=pt_BR
 Resource         setup-teardown.robot
 Test Setup       Dado que eu acesse o Organo
 Test Teardown    Fechar o navegador
@@ -32,9 +33,12 @@ Verificar se é possivel criar mais de um card se preenchermos os campos correta
 
 *** Keywords ***
 Dado que preencha os campos do formulário
-     Input Text       ${CAMPO_NOME}       Yousek
-     Input Text       ${CAMPO_CARGO}      Desenvolvedor 
-     Input Text       ${CAMPO_IMAGEM}     https://picsum.photos/200/300
+     ${Nome}          FakerLibrary.First Name
+     Input Text       ${CAMPO_NOME}        ${Nome}
+     ${Cargo}         FakerLibrary.Job     
+     Input Text       ${CAMPO_CARGO}       ${Cargo}
+     ${Imagem}        FakerLibrary.Image Url 
+     Input Text       ${CAMPO_IMAGEM}      ${Imagem}
      Click Element    ${CAMPO_TIME}
      Click Element    ${PROGRAMACAO}
 
@@ -50,5 +54,6 @@ Então identificar 3 cards no time esperado
             E clique no botão criar card
         
     END
+    Sleep    10s
 
  
